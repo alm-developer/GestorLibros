@@ -3,7 +3,7 @@ package org.example;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import org.example.View.IncioSesionUI;
+import org.example.view.IncioSesionUI;
 
 public class Main extends Application {
 
@@ -11,8 +11,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-    IncioSesionUI pantalla = new IncioSesionUI();
-    Scene escena = new Scene(pantalla,1200,720);
+    Scene escena = new Scene(new IncioSesionUI(),1200,720);
     primaryStage.setScene(escena);
     primaryStage.setTitle("InicioSesion");
     primaryStage.show();
