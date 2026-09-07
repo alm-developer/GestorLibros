@@ -1,7 +1,7 @@
 package org.example.models;
 
-import org.example.utils.adicionales.Estado;
-import org.example.utils.adicionales.TipoRol;
+import org.example.utils.Estado;
+import org.example.utils.TipoRol;
 
 public class UsuarioGrupo {
     private int idUsuario;

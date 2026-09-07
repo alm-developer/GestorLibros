@@ -1,4 +1,4 @@
-package org.example.utils.adicionales;
+package org.example.utils;
 
 public enum Estado {
     ACTIVO,

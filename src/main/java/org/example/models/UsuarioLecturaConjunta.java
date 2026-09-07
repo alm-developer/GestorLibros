@@ -1,6 +1,6 @@
 package org.example.models;
 
-import org.example.utils.adicionales.Estado;
+import org.example.utils.Estado;
 
 import java.time.LocalDateTime;
 
