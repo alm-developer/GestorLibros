@@ -1,6 +1,9 @@
 package org.example.databaseManager;
 
+import org.example.utils.Estado;
+
 import java.sql.*;
+import java.time.LocalDateTime;
 
 public class DatabaseConnection {
 
@@ -18,12 +21,13 @@ public class DatabaseConnection {
                 "idUsuario INT AUTO_INCREMENT PRIMARY KEY NOT NULL, " +
                 "nombre VARCHAR(20) NOT NULL," +
                 "contrasena VARCHAR(20) NOT NULL," +
-                "descripcion VARCHAR(39)," +
                 "librosCompletos INT," +
                 "fechaRegistro DATETIME NOT NULL," +
                 "ultimaConexion DATETIME NOT NULL," +
                 "activo BOOLEAN NOT NULL" +
                 ")";
+
+
 
         String grupoSql = "CREATE TABLE IF NOT EXISTS GRUPOS (" +
                 "idGrupo INT AUTO_INCREMENT PRIMARY KEY NOT NULL, " +
@@ -33,16 +37,19 @@ public class DatabaseConnection {
                 "fechaCreacion DATETIME NOT NULL," +
                 "tiempoConvivido INT," +
                 "idUsuarioCreador INT NOT NULL," +
+                "idUsuarioAdministrador INT NOT NULL," +
+                "FOREIGN KEY (idUsuarioAdministrador) REFERENCES USUARIOS(idUsuario)," +
                 "FOREIGN KEY (idUsuarioCreador) REFERENCES usuarios(idUsuario)" +
                 ")";
+
 
         String categoriaSql = "CREATE TABLE IF NOT EXISTS CATEGORIAS (" +
                 "idCategoria INT AUTO_INCREMENT PRIMARY KEY NOT NULL, " +
                 "nombre VARCHAR(20) NOT NULL," +
                 "descripcion VARCHAR(100)," +
                 "fechaCreacion DATETIME NOT NULL," +
-                "idUsuarioCreador INT NOT NULL," +
                 "idGrupo INT NOT NULL," +
+                "idUsuarioCreador INT NOT NULL," +
                 "FOREIGN KEY (idUsuarioCreador) REFERENCES usuarios(idUsuario)," +
                 "FOREIGN KEY (idGrupo) REFERENCES GRUPOS(idGrupo)" +
                 ")";
@@ -63,22 +70,17 @@ public class DatabaseConnection {
 
         String libroSql = "CREATE TABLE IF NOT EXISTS LIBROS (" +
                 "idLibro INT AUTO_INCREMENT PRIMARY KEY NOT NULL, " +
-                "titular VARCHAR(50) NOT NULL," +
-                "autor VARCHAR(50) NOT NULL," +
-                "descripcion VARCHAR(50)," +
-                "isbn VARCHAR(50)," +
-                "pagTotales INT," +
-                "fechaIntroduccion DATETIME NOT NULL," +
-                "fechaLeidoGrupo DATETIME," +
-                "abandonado BOOLEAN NOT NULL," +
-                "leidoTodos BOOLEAN NOT NULL," +
-                "fechaAbandonoTotal DATETIME," +
-                "estrellasTotales DOUBLE," +
-                "idUsuarioCreador INT NOT NULL,"+
-                "idBiblioteca INT NOT NULL," +
-                "idCategoria INT NOT NULL," +
-                "FOREIGN KEY (idUsuarioCreador) REFERENCES usuarios(idUsuario)," +
-                "FOREIGN KEY (IdBiblioteca) REFERENCES bibliotecas(idBiblioteca)," +
+                "titular VARCHAR(50) NOT NULL, " +
+                "autor VARCHAR(50) NOT NULL, " +
+                "descripcion VARCHAR(50), " +
+                "isbn VARCHAR(50), " +
+                "pagTotales INT, " +
+                "fechaIntroduccion DATETIME NOT NULL, " +
+                "idUsuarioCreador INT NOT NULL, " +
+                "idBiblioteca INT NOT NULL, " +
+                "idCategoria INT NOT NULL, " +
+                "FOREIGN KEY (idUsuarioCreador) REFERENCES usuarios(idUsuario), " +
+                "FOREIGN KEY (idBiblioteca) REFERENCES bibliotecas(idBiblioteca), " +
                 "FOREIGN KEY (idCategoria) REFERENCES categorias(idCategoria)" +
                 ")";
 
@@ -93,22 +95,37 @@ public class DatabaseConnection {
                 "FOREIGN KEY (idGrupo) REFERENCES  grupos(idGrupo)" +
                 ")";
 
+
         String usuarioLibrosql = "CREATE TABLE IF NOT EXISTS USUARIOLIBRO (" +
                 "idUsuario INT," +
                 "idLibro INT," +
-                "pagLeidas INT NOT NULL ," +
-                "pagRestantes INT NOT NULL ," +
-                "marcapaginas INT NOT NULL," +
-                "leido BOOLEAN NOT NULL ," +
-                "fechaLeido DATETIME," +
-                "opinion VARCHAR(200)," +
-                "fechaAbandono DATETIME," +
-                "abandonado BOOLEAN NOT NULL ," +
-                "estrellas DOUBLE," +
-                "PRIMARY KEY (idUsuario,idLibro)," +
+                "idProgresoPersonal INT," +
+                "PRIMARY KEY (idUsuario,idLibro,idProgresoPersonal)," +
                 "FOREIGN KEY (idUsuario) REFERENCES  usuarios(idUsuario)," +
-                "FOREIGN KEY (idLibro) REFERENCES libros(idLibro)" +
+                "FOREIGN KEY (idLibro) REFERENCES libros(idLibro)," +
+                "FOREIGN KEY (idProgresoPersonal) REFERENCES ProgresoPersonal(idProgresoPersonal)" +
                 ")";
+
+
+
+
+        String lecturaConjuntaSql = "CREATE TABLE IF NOT EXISTS LECTURACONJUNTA (" +
+                "idLecturaConjunta INT AUTO_INCREMENT PRIMARY KEY NOT NULL," +
+                "nombre VARCHAR(50) NOT NULL," +
+                "descripcion VARCHAR(100)," +
+                "fechaCreacion DATETIME NOT NULL," +
+                "fechaFinalizacion DATETIME NOT NULL," +
+                "lecturaCompletada BOOLEAN NOT NULL," +
+                "abandonado BOOLEAN NOT NULL," +
+                "numEstrellas DOUBLE NOT NULL," +
+                "idUsuarioCreador INT NOT NULL," +
+                "idLibro INT NOT NULL," +
+                "idBiblioteca INT NOT NULL," +
+                "FOREIGN KEY (idUsuarioCreador) REFERENCES Usuario(idUsuarioCreador)" +
+                "FOREIGN KEY (idLibro) REFERENCES Libro(idLibro)" +
+                "FOREIGN KEY (idBiblioteca) REFERENCES Biblioteca(idBiblioteca)" +
+                ");";
+
 
         try(Connection con = obtenerConexion(); Statement stmt = con.createStatement()) {
 
@@ -125,6 +142,8 @@ public class DatabaseConnection {
             stmt.execute(usuarioGrupoSql);
             System.out.println("Se ejecuto de manera divina la tabla usuariogrupo");
             stmt.execute(usuarioLibrosql);
+            System.out.println("Se ejecuto de manera divina la tabla usuariolibros");
+            stmt.execute(lecturaConjuntaSql);
             System.out.println("Se ejecuto de manera divina la tabla usuariolibros");
         } catch (SQLException e) {
             throw new RuntimeException(e);

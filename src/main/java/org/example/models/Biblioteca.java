@@ -7,8 +7,8 @@ public class Biblioteca {
     private String nombre;
     private String Contrasena;
     private String descripcion;
-    private int idUsuarioModerador;
     private LocalDateTime fechaCreacion;
+    private int idUsuarioModerador;
     private int idUsuarioCreador;
     private int idGrupo;
 }

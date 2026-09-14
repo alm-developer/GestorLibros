@@ -3,7 +3,7 @@ package org.example.models;
 import java.time.LocalDateTime;
 
 public class ProgresoConjunto {
-    private int idProgreso;
+    private int idProgresoConjunto;
     private int paginasLeidas;
     private int paginaActual;
     private int porcentaje;
@@ -11,4 +11,5 @@ public class ProgresoConjunto {
     private boolean terminado;
     private LocalDateTime fechaInicio;
     private LocalDateTime fechaFinalizacion;
+    private int idLecturaConjunta;
 }
