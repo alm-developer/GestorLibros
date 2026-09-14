@@ -13,6 +13,4 @@ public class Grupos {
     private LocalDateTime fechaCreacion;
     private int  tiempoConvivido;
     private int idUsuarioCreador;
-
-
 }

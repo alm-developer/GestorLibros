@@ -15,6 +15,5 @@ public class LecturaConjunta {
         private double numEstrellas;
         private int idLibro;
         private int IdBiblioteca;
-
 }
 

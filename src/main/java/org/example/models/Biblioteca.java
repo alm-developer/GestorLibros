@@ -11,5 +11,4 @@ public class Biblioteca {
     private LocalDateTime fechaCreacion;
     private int idUsuarioCreador;
     private int idGrupo;
-
 }

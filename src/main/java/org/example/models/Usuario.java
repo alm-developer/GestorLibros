@@ -12,6 +12,4 @@ public class Usuario {
     private LocalDateTime fechaRegistro;
     private LocalDateTime ultimaConexion;
     private boolean Activo;
-
-
 }
