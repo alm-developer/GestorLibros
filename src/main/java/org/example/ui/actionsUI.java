@@ -1,4 +1,4 @@
 package org.example.ui;
 
-public class Actions {
+public class actionsUI {
 }
